@@ -1,0 +1,44 @@
+/* Reset some default styles */
+body, h1, h2, h3, h4, h5, p {
+    margin: 0;
+    padding: 0;
+}
+
+/* Set a background color and text color for the body */
+body {
+    background-image: url("../cookie-background.jpg");
+    padding-top: 20px;
+}
+
+/* Style the header */
+header {
+    color: black; /* White text color */
+    text-align: center;
+    text-shadow: 2px 2px 5px pink;
+    font-family: 'Lucida Handwriting';
+    padding: 25px;
+    font-size: 25px;
+}
+
+/* Style the navigation menu */
+nav ul {
+    list-style: none;
+    text-align: center;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 15px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+    font-family: 'Trebuchet MS';
+}
+
+/* Style the main content */
+main {
+    padding: 20px;
+}

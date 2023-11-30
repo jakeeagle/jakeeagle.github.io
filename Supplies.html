@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SweetStats</title>
+    <meta name="description" content="A brief description of your website">
+    <link rel="stylesheet" type="text/css" href="Supplies.css">
+</head>
+<body>
+    <header>
+        <h1>Supply Financials </h1>
+    </header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="Data.html">Data</a></li>
+                <li><a href="Photos.html">Photos</a></li>
+                <li><a href="Supplies.html">Supplies</a></li>
+            </ul>
+        </nav>
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Price ($)</th>
+                <th>Quantity</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Butter</td>
+                <td><input type="number" id="priceButter" step="0.01" placeholder="Enter price"></td>
+                <td><input type="number" id="quantityButter" placeholder="Enter quantity"></td>
+                <td><span id="totalButter">0.00</span></td>
+            </tr>
+            <tr>
+                <td>Sugar</td>
+                <td><input type="number" id="priceSugar" step="0.01" placeholder="Enter price"></td>
+                <td><input type="number" id="quantitySugar" placeholder="Enter quantity"></td>
+                <td><span id="totalSugar">0.00</span></td>
+            </tr>
+            <tr>
+                <td>Flour</td>
+                <td><input type="number" id="priceFlour" step="0.01" placeholder="Enter price"></td>
+                <td><input type="number" id="quantityFlour" placeholder="Enter quantity"></td>
+                <td><span id="totalFlour">0.00</span></td>
+            </tr>
+            <tr>
+                <td>Baking Powder</td>
+                <td><input type="number" id="priceBaking Powder" step="0.01" placeholder="Enter price"></td>
+                <td><input type="number" id="quantityBaking Powder" placeholder="Enter quantity"></td>
+                <td><span id="totalBaking Powder">0.00</span></td>
+            </tr>
+            <tr>
+                <td>Baking Soda</td>
+                <td><input type="number" id="priceBaking Soda" step="0.01" placeholder="Enter price"></td>
+                <td><input type="number" id="quantityBaking Soda" placeholder="Enter quantity"></td>
+                <td><span id="totalBaking Soda">0.00</span></td>
+            </tr>
+            <tr>
+                <td>Vanilla Extract</td>
+                <td><input type="number" id="priceVanilla Extract" step="0.01" placeholder="Enter price"></td>
+                <td><input type="number" id="quantityVanilla Extract" placeholder="Enter quantity"></td>
+                <td><span id="totalVanilla Extract">0.00</span></td>
+            </tr>
+            <tr>
+                <td>Almond Extract</td>
+                <td><input type="number" id="priceAlmond Extract" step="0.01" placeholder="Enter price"></td>
+                <td><input type="number" id="quantityAlmond Extract" placeholder="Enter quantity"></td>
+                <td><span id="totalAlmond Extract">0.00</span></td>
+            </tr>
+            <tr>
+                <td>Eggs</td>
+                <td><input type="number" id="priceEggs" step="0.01" placeholder="Enter price"></td>
+                <td><input type="number" id="quantityEggs" placeholder="Enter quantity"></td>
+                <td><span id="totalEggs">0.00</span></td>
+            </tr>
+            <tr>
+                <td>Confectioner Sugar</td>
+                <td><input type="number" id="priceConfectioner Sugar" step="0.01" placeholder="Enter price"></td>
+                <td><input type="number" id="quantityConfectioner Sugar" placeholder="Enter quantity"></td>
+                <td><span id="totalConfectioner Sugar">0.00</span></td>
+            </tr>
+            <tr>
+                <td>Fat Free Milk</td>
+                <td><input type="number" id="priceFat Free Milk" step="0.01" placeholder="Enter price"></td>
+                <td><input type="number" id="quantityFat Free Milk" placeholder="Enter quantity"></td>
+                <td><span id="totalFat Free Milk">0.00</span></td>
+            </tr>
+            <tr>
+                <td>Corn Syrup</td>
+                <td><input type="number" id="priceCorn Syrup" step="0.01" placeholder="Enter price"></td>
+                <td><input type="number" id="quantityCorn Syrup" placeholder="Enter quantity"></td>
+                <td><span id="totalCorn Syrup">0.00</span></td>
+            </tr>
+            <tr>
+                <td>Icing Dye</td>
+                <td><input type="number" id="priceIcing Dye" step="0.01" placeholder="Enter price"></td>
+                <td><input type="number" id="quantityIcing Dye" placeholder="Enter quantity"></td>
+                <td><span id="totalIcing Dye">0.00</span></td>
+            </tr>
+            <tr>
+                <td>Icing Bags</td>
+                <td><input type="number" id="priceIcing Bags" step="0.01" placeholder="Enter price"></td>
+                <td><input type="number" id="quantityIcing Bags" placeholder="Enter quantity"></td>
+                <td><span id="totalIcing Bags">0.00</span></td>
+            </tr>
+            <tr>
+                <td>Cookie Bags</td>
+                <td><input type="number" id="priceCookie Bags" step="0.01" placeholder="Enter price"></td>
+                <td><input type="number" id="quantityCookie Bags" placeholder="Enter quantity"></td>
+                <td><span id="totalCookie Bags">0.00</span></td>
+            </tr>
+            <tr>
+                <td>Packaging Bags & Boxes</td>
+                <td><input type="number" id="pricePackaging Bags & Boxes" step="0.01" placeholder="Enter price"></td>
+                <td><input type="number" id="quantityPackaging Bags & Boxes" placeholder="Enter quantity"></td>
+                <td><span id="totalPackaging Bags & Boxes">0.00</span></td>
+            </tr>
+            <tr>
+                <td>Labels</td>
+                <td><input type="number" id="priceLabels" step="0.01" placeholder="Enter price"></td>
+                <td><input type="number" id="quantityLabels" placeholder="Enter quantity"></td>
+                <td><span id="totalLabels">0.00</span></td>
+            </tr>
+            <tr>
+                <td>Miscellaneous</td>
+                <td><input type="number" id="priceMiscellaneous" step="0.01" placeholder="Enter price"></td>
+                <td><input type="number" id="quantityMiscellaneous" placeholder="Enter quantity"></td>
+                <td><span id="totalMiscellaneous">0.00</span></td>
+            </tr>
+
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2"></td>
+                <td><strong>Total</strong></td>
+                <td><span id="grandTotal">0.00</span></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <button onclick="calculateTotals()">Calculate Totals</button>
+    
+    <script>
+        // Function to update the total for a specific row
+        function updateTotal(item) {
+            var price = parseFloat(document.getElementById('price' + item).value) || 0;
+            var quantity = parseInt(document.getElementById('quantity' + item).value) || 0;
+            var total = price * quantity;
+            document.getElementById('total' + item).innerText = total.toFixed(2);
+            updateGrandTotal();
+            return total;
+        }  
+
+        // Function to update the grand total
+        function updateGrandTotal() {
+            // Initialize grand total
+            var grandTotal = 0; 
+
+            // Iterate through each row and sum up the totals
+            document.querySelectorAll('tbody tr').forEach(function(row) {
+                grandTotal += parseFloat(row.querySelector('span').innerText) || 0;
+            });
+
+            document.getElementById('grandTotal').innerText = grandTotal.toFixed(2);
+        }
+
+        // Function to calculate totals for all items
+        function calculateTotals() {
+            // Iterate through each row and calculate the total
+            document.querySelectorAll('tbody tr').forEach(function(row) {
+                var item = row.querySelector('td').innerText.trim();
+                updateTotal(item);
+            });
+        }
+    </script>
+</body>
+</html>

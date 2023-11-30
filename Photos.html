@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Photos.css"> 
+    <title>Cookie Photo Gallery</title>
+</head>
+<header>
+    <h1>Photo Library</h1>
+</header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="Data.html">Data</a></li>
+            <li><a href="Photos.html">Photos</a></li>
+            <li><a href="Supplies.html">Supplies</a></li>
+        </ul>
+    </nav>
+
+<form id="uploadForm">
+    <input type="file" accept="image/*" id="imageInput" onchange="previewImage()">
+    <br>
+    <img id="preview" src="#" alt="Preview" style="max-width: 300px; max-height: 300px; display: none;">
+    <br>
+    <button type="button" onclick="uploadImage()">Upload</button>
+</form>
+
+<table id="imageTable" border="1">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>File Name</th>
+            <th>File Size</th>
+            <th>File Type</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Image entries will be added here dynamically -->
+    </tbody>
+</table>
+
+<script>
+    function previewImage() {
+        var input = document.getElementById('imageInput');
+        var preview = document.getElementById('preview');
+        
+        var file = input.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    function uploadImage() {
+        var input = document.getElementById('imageInput');
+        var file = input.files[0];
+
+        if (file) {
+            // Create a new table row
+            var table = document.getElementById('imageTable').getElementsByTagName('tbody')[0];
+            var newRow = table.insertRow(table.rows.length);
+
+            // Create cells for the new row
+            var cell1 = newRow.insertCell(0);
+            var cell2 = newRow.insertCell(1);
+            var cell3 = newRow.insertCell(2);
+            var cell4 = newRow.insertCell(3);
+
+            // Create an image element and set its attributes
+            var newImage = document.createElement('img');
+            newImage.src = URL.createObjectURL(file);
+            newImage.alt = 'Uploaded Image';
+            newImage.style.maxWidth = '100px'; // Adjust the maximum width if needed
+
+            // Append the image to the first cell
+            cell1.appendChild(newImage);
+
+            // Set file details in other cells
+            cell2.innerHTML = file.name;
+            cell3.innerHTML = file.size + ' bytes';
+            cell4.innerHTML = file.type;
+        }
+    }
+</script>
+
+</body>
+</html>
+

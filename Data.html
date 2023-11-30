@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Data.css"> 
+    <title>Cookie Data Table</title>
+</head>
+<header>
+    <h1>Any New Orders to Input today?</h1>
+</header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="Data.html">Data</a></li>
+            <li><a href="Photos.html">Photos</a></li>
+            <li><a href="Supplies.html">Supplies</a></li>
+        </ul>
+    </nav>
+
+<body>
+    <table class ="datatable" border="1">
+        <thread>
+            <tr>
+                <td>First Name</td>
+                <td>Last Name</td>
+                <td>Cookie Amount</td>
+                <td>Price</td>
+                <td>Date</td>
+            </tr>
+
+        <tbody>
+            <tr><input type="text" id="firstname" placeholder = "Enter First Name"></tr> 
+            <tr><input type="text" id="lastname" placeholder = "Enter Last Name"></tr>
+            <tr><input type="number" id="amount" placeholder = "Enter Amount of Cookies"></tr>
+            <tr><input type="number" id="price" placeholder = "Enter Total Price"></tr>
+            <tr><input type="date" id="date"></tr>
+        </tbody>
+        </table>
+        <button onclick="addRow()">Add Order</button>
+        <button onclick="saveOrder()">Save</button>
+        <script>
+            function addRow() {
+                var table = document.querySelector('table');
+                var newRow = table.insertRow();
+                var cell1 = newRow.insertCell(0);
+                var cell2 = newRow.insertCell(1);
+                //get input values
+                var fname = document.getElementById('firstname').value;
+                var lname = document.getElementById('lastname').value;
+                var amount = document.getElementById('amount').value;
+                var price = document.getElementById('price').value;
+                var date = document.getElementById('date').value;
+                //add to cells
+                cell1.innerHTML = fname;
+                cell2.innerHTML = lname;
+                //clear input fields
+                document.getElementById('firstname').value = '';
+                document.getElementById('lastname').value = '';
+                document.getElementById('amount').value = '';
+                document.getElementById('price').value = '';
+                document.getElementById('date').value = '';
+                //add remaining cells
+                var newCell3 = newRow.insertCell(2);
+                var newCell4 = newRow.insertCell(3);
+                var newCell5 = newRow.insertCell(4);
+                newCell3.innerHTML = amount;
+                newCell4.innerHTML = price;
+                newCell5.innerHTML = date;
+            }
+            // Save order data to localStorage
+            function saveOrder() {
+                var order = {
+                    firstname: document.getElementById('firstname').value,
+                    lastname: document.getElementById('lastname').value,
+                    amount: document.getElementById('amount').value,
+                    price: document.getElementById('price').value,
+                    date: document.getElementById('date').value
+                    };
+                    // Save to localStorage
+                    localStorage.setItem('orders', JSON.stringify(order));
+                    // Clear form
+                    document.getElementById('firstname').value = '';
+                    document.getElementById('lastname').value = '';
+                    document.getElementById('amount').value = '';
+                    document.getElementById('price').value = '';
+                    document.getElementById('date').value = '';
+                    // Load orders from localStorage
+                    var orders = JSON.parse(localStorage.getItem('orders')) || [];
+                    // Display existing orders
+                    orders.forEach(function(order) {
+                        addRow(
+                            order.firstname,
+                            order.lastname,
+                            order.amount,
+                            order.price,
+                            order.date);
+                            })};
+                            // Add submit handler to save on form submit
+                            document.querySelector('form').addEventListener('submit', saveOrder);
+
+        </script>
+</body>
+</html>
+
