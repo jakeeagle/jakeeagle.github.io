@@ -1,2 +1,2 @@
 # SweetStats
-A website designed for my mom to use for her side hustle cookie-making business.
+A website designed for my mom to use for her side hustle cookie-making business. Designing three pages for her user-input data. One that allows her to input each order she receives and how much income will be paid. Another page is a database for uploading photos so she can look back at designs she could do again. The last page is her supply chart which tracks her finances and what she spends on supplies. 
