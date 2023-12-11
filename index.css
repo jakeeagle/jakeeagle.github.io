@@ -10,15 +10,26 @@ body {
     padding-top: 20px;
 }
 
-/* Style the header */
 header {
-    color: black; /* White text color */
+    color: black;
     text-align: center;
     text-shadow: 2px 2px 5px pink;
-    font-family: 'Lucida Handwriting';
-    padding: 25px;
+    font-family: 'Lucida Handwriting', cursive;
+    padding: 10px 10px; /* Adjusted padding for vertical and horizontal spacing */
     font-size: 25px;
+    background-color: white;
+    width: fit-content;
+    margin: auto;
+    border-radius: 50px;
+    border: 2px dotted pink; /* Increased border thickness */
 }
+
+img {
+    display: block; /* Ensures the image is treated as a block-level element */
+    margin: auto; /* Centers the image horizontally */
+}
+
+
 
 /* Style the navigation menu */
 nav ul {
@@ -29,16 +40,12 @@ nav ul {
 nav ul li {
     display: inline;
     margin-right: 15px;
+
 }
 
 nav a {
     text-decoration: none;
     color: #000000;
     font-weight: bold;
-    font-family: 'Trebuchet MS';
-}
-
-/* Style the main content */
-main {
-    padding: 20px;
+    font-family: 'Lucida Handwriting';
 }
