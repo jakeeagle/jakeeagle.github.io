@@ -11,14 +11,14 @@
     <header>
         <h1>Supply Financials </h1>
     </header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="Data.html">Data</a></li>
-                <li><a href="Photos.html">Photos</a></li>
-                <li><a href="Supplies.html">Supplies</a></li>
-            </ul>
-        </nav>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="Data.html">Data</a></li>
+            <li><a href="Photos.html">Photos</a></li>
+            <li><a href="Supplies.html">Supplies</a></li>
+        </ul>
+    </nav>
 
     <style>
         table {
@@ -28,7 +28,7 @@
         }
 
         th, td {
-            border: 1px solid #ddd;
+            border: 1px solid black;
             padding: 8px;
             text-align: left;
         }
@@ -149,7 +149,6 @@
                 <td><input type="number" id="quantityMiscellaneous" placeholder="Enter quantity"></td>
                 <td><span id="totalMiscellaneous">0.00</span></td>
             </tr>
-
         </tbody>
         <tfoot>
             <tr>
@@ -161,39 +160,88 @@
     </table>
 
     <button onclick="calculateTotals()">Calculate Totals</button>
-    
+
     <script>
-        // Function to update the total for a specific row
+        //Function to update the total for a specific row
         function updateTotal(item) {
             var price = parseFloat(document.getElementById('price' + item).value) || 0;
             var quantity = parseInt(document.getElementById('quantity' + item).value) || 0;
             var total = price * quantity;
             document.getElementById('total' + item).innerText = total.toFixed(2);
             updateGrandTotal();
+            saveItemToLocalStorage(item, price, quantity, total);
             return total;
         }  
-
-        // Function to update the grand total
+    
+        //Function to update the grand total
         function updateGrandTotal() {
-            // Initialize grand total
+            //Initialize grand total
             var grandTotal = 0; 
-
-            // Iterate through each row and sum up the totals
+    
+            //Iterate through each row and sum up the totals
             document.querySelectorAll('tbody tr').forEach(function(row) {
                 grandTotal += parseFloat(row.querySelector('span').innerText) || 0;
             });
-
+    
             document.getElementById('grandTotal').innerText = grandTotal.toFixed(2);
+    
+            //Save grand total to local storage
+            localStorage.setItem('grandTotal', grandTotal.toFixed(2));
         }
-
+    
         // Function to calculate totals for all items
         function calculateTotals() {
-            // Iterate through each row and calculate the total
+            // terate through each row and calculate the total
             document.querySelectorAll('tbody tr').forEach(function(row) {
                 var item = row.querySelector('td').innerText.trim();
                 updateTotal(item);
             });
         }
+    
+        //Function to save item data to local storage
+        function saveItemToLocalStorage(item, price, quantity, total) {
+            localStorage.setItem('price' + item, price.toFixed(2));
+            localStorage.setItem('quantity' + item, quantity);
+            localStorage.setItem('total' + item, total.toFixed(2));
+        }
+    
+        //Function to load item data from local storage on page load
+        function loadItemsFromLocalStorage() {
+            //Iterate through each row and load data from local storage
+            document.querySelectorAll('tbody tr').forEach(function(row) {
+                var item = row.querySelector('td').innerText.trim();
+                var storedPrice = localStorage.getItem('price' + item);
+                var storedQuantity = localStorage.getItem('quantity' + item);
+                var storedTotal = localStorage.getItem('total' + item);
+    
+                if (storedPrice !== null) {
+                    document.getElementById('price' + item).value = storedPrice;
+                }
+    
+                if (storedQuantity !== null) {
+                    document.getElementById('quantity' + item).value = storedQuantity;
+                }
+    
+                if (storedTotal !== null) {
+                    document.getElementById('total' + item).innerText = storedTotal;
+                }
+            });
+        }
+    
+        //Function to load data from local storage on page load
+        function loadFromLocalStorage() {
+            // Load grand total
+            var storedGrandTotal = localStorage.getItem('grandTotal');
+            if (storedGrandTotal) {
+                document.getElementById('grandTotal').innerText = storedGrandTotal;
+            }
+    
+            //Load individual item data
+            loadItemsFromLocalStorage();
+        }
+    
+        //Call the loadFromLocalStorage function on page load
+        window.onload = loadFromLocalStorage;
     </script>
 </body>
 </html>
