@@ -1,51 +1,53 @@
-/* Reset some default styles */
-body, h1, h2, h3, h4, h5, p {
-    margin: 0;
-    padding: 0;
-}
-
-/* Set a background color and text color for the body */
 body {
     background-image: url("../cookie-background.jpg");
     padding-top: 20px;
 }
 
 header {
-    color: black;
-    text-align: center;
-    text-shadow: 2px 2px 5px pink;
-    font-family: 'Lucida Handwriting', cursive;
-    padding: 10px 10px; /* Adjusted padding for vertical and horizontal spacing */
+    font-family: 'Lucida Handwriting';
+    text-shadow: 3px 3px 10px #f6378f;
     font-size: 25px;
-    background-color: white;
     width: fit-content;
     margin: auto;
-    border-radius: 50px;
-    border: 2px dotted pink; /* Increased border thickness */
-}
-
-img {
-    display: block; /* Ensures the image is treated as a block-level element */
-    margin: auto; /* Centers the image horizontally */
-}
-
-
-
-/* Style the navigation menu */
-nav ul {
+    margin-top: 20px;
     list-style: none;
     text-align: center;
+    line-height: 0%;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
 }
 
 nav ul li {
     display: inline;
-    margin-right: 15px;
-
+    margin-right: 50px;
 }
 
 nav a {
     text-decoration: none;
     color: #000000;
+    font-weight: bold;
+}
+
+img {
+    display: block; /*Block-level element */
+    margin: auto; /* Centers the image horizontally */
+}
+
+/* Footer Text elements */
+.content-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.text-box {
+    margin-top: 10px;
+}
+
+.text-box p {
+    margin: 5px 0;
+    font-size: 18px;
     font-weight: bold;
     font-family: 'Lucida Handwriting';
 }
