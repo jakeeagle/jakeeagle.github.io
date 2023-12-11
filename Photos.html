@@ -6,9 +6,10 @@
     <link rel="stylesheet" href="Photos.css"> 
     <title>Cookie Photo Gallery</title>
 </head>
-<header>
-    <h1>Photo Library</h1>
-</header>
+<body>
+    <header>
+        <h1>Photo Library</h1>
+    </header>
     <nav>
         <ul>
             <li><a href="index.html">Home</a></li>
@@ -18,76 +19,146 @@
         </ul>
     </nav>
 
-<form id="uploadForm">
-    <input type="file" accept="image/*" id="imageInput" onchange="previewImage()">
-    <br>
-    <img id="preview" src="#" alt="Preview" style="max-width: 300px; max-height: 300px; display: none;">
-    <br>
-    <button type="button" onclick="uploadImage()">Upload</button>
-</form>
+    <form id="uploadForm">
+        <input type="file" accept="image/*" id="imageInput" onchange="previewImage()">
+        <br>
+        <input type="text" id="categoryInput" placeholder="Enter category">
+        <br>
+        <img id="preview" src="#" alt="Preview" style="max-width: 300px; max-height: 300px; display: none;">
+        <br>
+        <button type="button" onclick="uploadImage()">Upload</button>
+    </form>
 
-<table id="imageTable" border="1">
-    <thead>
-        <tr>
-            <th>Image</th>
-            <th>File Name</th>
-            <th>File Size</th>
-            <th>File Type</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Image entries will be added here dynamically -->
-    </tbody>
-</table>
+    <button type="button" onclick="sortTableByCategory()">Sort by Category</button>
 
-<script>
-    function previewImage() {
-        var input = document.getElementById('imageInput');
-        var preview = document.getElementById('preview');
-        
-        var file = input.files[0];
-        var reader = new FileReader();
+    <table id="imageTable" border="1">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>File Name</th>
+                <th>Category</th>
+                <th>File Size</th>
+                <th>File Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Image entries will be added here dynamically -->
+        </tbody>
+    </table>
 
-        reader.onload = function(e) {
-            preview.src = e.target.result;
-            preview.style.display = 'block';
-        };
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            loadFromLocalStorage();
+        });
 
-        reader.readAsDataURL(file);
-    }
+        function loadFromLocalStorage() {
+            var existingData = JSON.parse(localStorage.getItem('uploadedImages')) || [];
+            var tableBody = document.getElementById('imageTable').getElementsByTagName('tbody')[0];
 
-    function uploadImage() {
-        var input = document.getElementById('imageInput');
-        var file = input.files[0];
+            existingData.forEach(function (data) {
+                var newRow = tableBody.insertRow(tableBody.rows.length);
+                var cell1 = newRow.insertCell(0);
+                var cell2 = newRow.insertCell(1);
+                var cell3 = newRow.insertCell(2);
+                var cell4 = newRow.insertCell(3);
+                var cell5 = newRow.insertCell(4);
 
-        if (file) {
-            // Create a new table row
-            var table = document.getElementById('imageTable').getElementsByTagName('tbody')[0];
-            var newRow = table.insertRow(table.rows.length);
+                var newImage = document.createElement('img');
+                newImage.src = ''; // Set the source if you have a separate URL for each image
+                newImage.alt = 'Uploaded Image';
+                newImage.style.maxWidth = '100px';
 
-            // Create cells for the new row
-            var cell1 = newRow.insertCell(0);
-            var cell2 = newRow.insertCell(1);
-            var cell3 = newRow.insertCell(2);
-            var cell4 = newRow.insertCell(3);
-
-            // Create an image element and set its attributes
-            var newImage = document.createElement('img');
-            newImage.src = URL.createObjectURL(file);
-            newImage.alt = 'Uploaded Image';
-            newImage.style.maxWidth = '100px'; // Adjust the maximum width if needed
-
-            // Append the image to the first cell
-            cell1.appendChild(newImage);
-
-            // Set file details in other cells
-            cell2.innerHTML = file.name;
-            cell3.innerHTML = file.size + ' bytes';
-            cell4.innerHTML = file.type;
+                cell1.appendChild(newImage);
+                cell2.innerHTML = data.name;
+                cell3.innerHTML = data.category;
+                cell4.innerHTML = data.size + ' bytes';
+                cell5.innerHTML = data.type;
+            });
         }
-    }
-</script>
 
+        function previewImage() {
+            var input = document.getElementById('imageInput');
+            var preview = document.getElementById('preview');
+            
+            var file = input.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        function uploadImage() {
+            var input = document.getElementById('imageInput');
+            var categoryInput = document.getElementById('categoryInput');
+            var file = input.files[0];
+
+            if (file) {
+                var table = document.getElementById('imageTable').getElementsByTagName('tbody')[0];
+                var newRow = table.insertRow(table.rows.length);
+
+                var cell1 = newRow.insertCell(0);
+                var cell2 = newRow.insertCell(1);
+                var cell3 = newRow.insertCell(2);
+                var cell4 = newRow.insertCell(3);
+                var cell5 = newRow.insertCell(4);
+
+                var newImage = document.createElement('img');
+                newImage.src = URL.createObjectURL(file);
+                newImage.alt = 'Uploaded Image';
+                newImage.style.maxWidth = '100px';
+
+                cell1.appendChild(newImage);
+                cell2.innerHTML = file.name;
+                cell3.innerHTML = categoryInput.value; // Get the category from the user input
+                cell4.innerHTML = file.size + ' bytes';
+                cell5.innerHTML = file.type;
+
+                saveToLocalStorage(file.name, categoryInput.value, file.size, file.type);
+            }
+        }
+
+        function saveToLocalStorage(fileName, category, fileSize, fileType) {
+            var existingData = JSON.parse(localStorage.getItem('uploadedImages')) || [];
+
+            existingData.push({
+                name: fileName,
+                category: category,
+                size: fileSize,
+                type: fileType
+            });
+
+            localStorage.setItem('uploadedImages', JSON.stringify(existingData));
+        }
+
+        function sortTableByCategory() {
+            var table = document.getElementById('imageTable').getElementsByTagName('tbody')[0];
+            var rows = Array.from(table.rows);
+
+            rows.sort(function(a, b) {
+                var categoryA = a.cells[2].innerHTML.toLowerCase();
+                var categoryB = b.cells[2].innerHTML.toLowerCase();
+
+                if (categoryA < categoryB) {
+                    return -1;
+                } else if (categoryA > categoryB) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
+
+            while (table.rows.length > 0) {
+                table.deleteRow(0);
+            }
+
+            rows.forEach(function(row) {
+                table.appendChild(row);
+            });
+        }
+    </script>
 </body>
 </html>
-
