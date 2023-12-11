@@ -1,88 +1,153 @@
-// Function to save the order to local storage
+function addRow() {
+    try {
+        const table = document.querySelector('.datatable');
+        const newRow = table.insertRow();
+        const cells = [];
+
+        for (let i = 0; i < 6; i++) {
+            cells[i] = newRow.insertCell(i);
+            let input = document.createElement('input');
+            if (i === 4 || i === 5) {
+                input.type = (i === 4) ? 'date' : 'checkbox';
+            } else {
+                input.type = 'text';
+            }
+            cells[i].appendChild(input);
+        }
+
+        //Save the updated order to local storage
+        saveOrder();
+    } catch (error) {
+        console.log("Error adding row:", error);
+    }
+}
+
+function calculateTotalRevenue() {
+    const table = document.querySelector('.datatable');
+    const rows = Array.from(table.rows).slice(1); //Exclude the header row
+    let totalRevenue = 0;
+
+    rows.forEach(row => {
+        const price = parseFloat(row.cells[3].getElementsByTagName('input')[0].value);
+        const isPaid = row.cells[5].getElementsByTagName('input')[0].checked;
+
+        if (!isNaN(price) && isPaid) {
+            totalRevenue += price;
+        }
+    });
+
+    //Display the total revenue
+    document.getElementById('totalRevenue').innerText = `Total Revenue: $${totalRevenue.toFixed(2)}`;
+}
+
+function sortTableByFirstName() {
+    sortTable(0); //Sorting by the first column(index 0)
+}
+
+function sortTableByLastName() {
+    sortTable(1); //Sorting by the second column(index 1)
+}
+
+function sortTableByDate() {
+    sortTable(4); //Sorting by the fifth column(index 4)
+}
+
+function sortTable(columnIndex) {
+    const table = document.querySelector('.datatable');
+    const rows = Array.from(table.rows).slice(1); //Exclude the header row
+
+    rows.sort((a, b) => {
+        const aValue = a.cells[columnIndex].getElementsByTagName('input')[0].value;
+        const bValue = b.cells[columnIndex].getElementsByTagName('input')[0].value;
+
+        // Compare values based on their types
+        if (!isNaN(aValue) && !isNaN(bValue)) {
+            return parseFloat(aValue) - parseFloat(bValue);
+        } else {
+            return aValue.localeCompare(bValue);
+        }
+    });
+
+    //Clear existing rows in the table
+    while (table.rows.length > 1) {
+        table.deleteRow(1);
+    }
+
+    //Add sorted rows back to the table
+    rows.forEach(row => table.appendChild(row));
+
+    //Save the updated order to local storage
+    saveOrder();
+}
+
 function saveOrder() {
     try {
-        // Retrieve existing orders from local storage or initialize an empty array
-        const ordersList = JSON.parse(localStorage.getItem("orders")) || [];
+        const table = document.querySelector('.datatable');
+        const ordersList = [];
 
-        // Get input values
-        const fname = document.getElementById("firstname").value;
-        const lname = document.getElementById("lastname").value;
-        const amount = document.getElementById("amount").value;
-        const price = document.getElementById("price").value;
-        const date = document.getElementById("date").value;
+        // Iterate through rows and cells to collect data
+        for (let i = 1; i < table.rows.length; i++) {
+            const order = {
+                'firstname': table.rows[i].cells[0].getElementsByTagName('input')[0].value,
+                'lastname': table.rows[i].cells[1].getElementsByTagName('input')[0].value,
+                'amount': table.rows[i].cells[2].getElementsByTagName('input')[0].value,
+                'price': table.rows[i].cells[3].getElementsByTagName('input')[0].value,
+                'date': table.rows[i].cells[4].getElementsByTagName('input')[0].value,
+                'paid': table.rows[i].cells[5].getElementsByTagName('input')[0].checked
+            };
+            ordersList.push(order);
+        }
 
-        // Create a new order object
-        const newOrder = {
-            firstname: fname,
-            lastname: lname,
-            amount: amount,
-            price: price,
-            date: date
-        };
-
-        // Add the new order to the array
-        ordersList.push(newOrder);
-
-        // Log the order list before saving
-        console.log("Orders List before saving:", ordersList);
-
-        // Save the updated array back to local storage
+        //Save the data to local storage
         localStorage.setItem("orders", JSON.stringify(ordersList));
+
+        //Recalculate and display the total revenue
+        calculateTotalRevenue();
     } catch (error) {
-        // Use console.log instead of console.error
         console.log("Error saving order:", error);
     }
 }
 
-    function addRow() {
-        var table = document.querySelector('.datatable');
-        var newRow = table.insertRow();
-        var cells = [];
+function loadOrders() {
+    try {
+        //Retrieve existing orders from local storage or initialize an empty array
+        const ordersList = JSON.parse(localStorage.getItem("orders")) || [];
 
-        for (let i = 0; i < 5; i++) {
-            cells[i] = newRow.insertCell(i);
-            if (i !== 2 && i !== 3) {
-                let input = document.createElement('input');
-                input.type = (i === 4) ? 'date' : 'text';
-                cells[i].appendChild(input);
-            }
+        //Log the retrieved orders
+        console.log("Orders List:", ordersList);
+
+        //Clear existing rows in the table
+        const table = document.querySelector('.datatable');
+        while (table.rows.length > 1) {
+            table.deleteRow(1);
         }
 
-        var fname = document.getElementById('firstname').value;
-        var lname = document.getElementById('lastname').value;
-        var amount = document.getElementById('amount').value;
-        var price = document.getElementById('price').value;
-        var date = document.getElementById('date').value;
+        //Loop through the orders and add them to the table
+        for (let i = 0; i < ordersList.length; i++) {
+            addRow();
 
-        cells[0].getElementsByTagName('input')[0].value = fname;
-        cells[1].getElementsByTagName('input')[0].value = lname;
-        cells[2].innerHTML = amount;
-        cells[3].innerHTML = price;
-        cells[4].getElementsByTagName('input')[0].value = date;
+            //Retrieve the last added row
+            const lastRow = table.rows[i + 1];
 
-        document.getElementById('firstname').value = '';
-        document.getElementById('lastname').value = '';
-        document.getElementById('amount').value = '';
-        document.getElementById('price').value = '';
-        document.getElementById('date').value = '';
+            //Input the values in the last row
+            lastRow.cells[0].getElementsByTagName('input')[0].value = ordersList[i].firstname;
+            lastRow.cells[1].getElementsByTagName('input')[0].value = ordersList[i].lastname;
+            lastRow.cells[2].getElementsByTagName('input')[0].value = ordersList[i].amount;
+            lastRow.cells[3].getElementsByTagName('input')[0].value = ordersList[i].price;
+            lastRow.cells[4].getElementsByTagName('input')[0].value = ordersList[i].date;
 
-        // Save the order to local storage
-        saveOrder();
+            //For the 'Paid?' column in the 6th column
+            lastRow.cells[5].getElementsByTagName('input')[0].checked = ordersList[i].paid;
+        }
+
+        //Recalculate and display the total revenue
+        calculateTotalRevenue();
+    } catch (error) {
+        console.error("Error loading orders:", error);
     }
+}
 
-    function loadOrders() {
-        // Retrieve existing orders from local storage or initialize an empty array
-        const ordersList = JSON.parse(localStorage.getItem("orders")) || [];
-    // Log the retrieved orders
-    console.log("Orders List:", ordersList);
-            // Loop through the orders and add them to the table
-            for (let i = 0; i < ordersList.length; i++) {
-                addRow();
-                document.getElementById('firstname').value = ordersList[i].firstname;
-                document.getElementById('lastname').value = ordersList[i].lastname;
-                document.getElementById('amount').value = ordersList[i].amount;
-                document.getElementById('price').value = ordersList[i].price;
-                document.getElementById('date').value = ordersList[i].date;
-            }
-    }
-    
+//Load stored orders on page load
+window.onload = function () {
+    loadOrders();
+};
