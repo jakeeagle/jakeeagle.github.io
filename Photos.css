@@ -1,22 +1,16 @@
+/* Header Styles */
 header {
     color: black;
     text-align: center;
-    text-shadow: 2px 2px 5px pink;
+    text-shadow: 3px 3px 10px #f6378f;
     font-family: 'Lucida Handwriting';
-    padding-top: 1px;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 1px;
-    background-color: white;
-    border-style: dotted;
-    border-color: pink;
-    width:fit-content;
+    width: fit-content;
+    height: 50px;
     margin: auto;
-    border-radius: 50px;
     font-size: 20px;
     font-weight: bold;
-    line-height: 2em;
 }
+
 
 body {
     background-image: url("../cookie-background.jpg");
@@ -24,29 +18,25 @@ body {
 }
 
 nav {
-    background-color: white;
-    width:fit-content;
-    border-radius: 10px;
-    border-color: pink;
-    border-style:dotted;
+    font-family: 'Lucida Handwriting';
+    text-shadow: 3px 3px 10px #f6378f;
+    font-size: 20px;
+    width: fit-content;
     margin: auto;
     margin-top: 20px;
     list-style: none;
     text-align: center;
     line-height: 0%;
     height: 20px;
-    padding-bottom: 15px;
-    padding-right: 20px;
-}
+    display: flex;
+    justify-content: center;
+    padding-bottom: 10px;
 
-nav ul {
-    list-style: none;
-    text-align: center;
 }
 
 nav ul li {
     display: inline;
-    margin-right: 15px;
+    margin-right: 50px;
 }
 
 nav a {
@@ -56,16 +46,20 @@ nav a {
     font-family: 'Lucida Handwriting';
 }
 
+
 /* Style for the table */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
-    font-family: Arial, sans-serif;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid black;
+    background-color: white;
 }
 
 th, td {
-    border: 1px solid #ddd;
     padding: 10px;
     text-align: left;
 }
@@ -87,60 +81,40 @@ label {
 
 input {
     width: 100%;
-    padding: 8px;
+    padding: 5px;
     box-sizing: border-box;
     margin-top: 15px;
 }
 
 
+/* Button Styles */
 button {
-  margin: 10px;
-  padding: 15px 30px;
-  text-align: center;
-  text-transform: uppercase;
-  transition: 0.5s;
-  background-size: 200% auto;
-  color: white;
-  border-radius: 10px;
-  display: block;
-  border: 0px;
-  font-weight: 700;
-  box-shadow: 0px 0px 14px -7px white;
-  background-image: linear-gradient(45deg, grey 0%, lightgrey  51%, black 100%);
-  cursor: pointer;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
+    margin: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: black;
+    border-radius: 10px;
+    display: block;
+    border: 0px;
+    font-weight: 700;
+    font-family: 'Lucida Handwriting';
+    box-shadow: 0px 0px 14px -7px black;
+    background-image: linear-gradient(45deg, #f6378f 0%, #f6378f 51%, salmon 100%);
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
 }
 
 button:hover {
-  background-position: right center;
-  color: white;
-  text-decoration: none;
+    background-position: right center;
+    text-decoration: none;
 }
 
 button:active {
-  transform: scale(0.95);
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-table, th, td {
-    border: 2px solid #ddd;
-    background-color: white;
-}
-
-th, td {
-    padding: 10px;
-    text-align: left;
+    transform: scale(0.95);
 }
 
 button {
