@@ -26,109 +26,29 @@
     <table class="datatable" border="1">
         <thead>
             <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
+                <th><button onclick="sortTableByFirstName()">Sort by First Name</button></th>
+                <th><button onclick="sortTableByLastName()">Sort by Last Name</button></th>
                 <th>Cookie Amount</th>
                 <th>Price</th>
-                <th>Date</th>
+                <th><button onclick="sortTableByDate()">Sort by Date</button></th>
+                <th>Paid?</th>
             </tr>
         </thead>
         <tbody>
+
             <tr>
                 <td><input type="text" id="firstname" placeholder="Enter First Name"></td>
                 <td><input type="text" id="lastname" placeholder="Enter Last Name"></td>
                 <td><input type="number" id="amount" placeholder="Enter Amount of Cookies"></td>
                 <td><input type="number" id="price" placeholder="Enter Total Price"></td>
                 <td><input type="date" id="date"></td>
+                <td><input type="checkbox" id="paid"></td>
             </tr>
         </tbody>
     </table>
     <button onclick="addRow()">Add Order</button>
-
-    <script>
-        function addRow() {
-            var table = document.querySelector('.datatable');
-            var newRow = table.insertRow();
-            var cells = [];
-
-            for (let i = 0; i < 6; i++) {
-                cells[i] = newRow.insertCell(i);
-                if (i !== 2 && i !== 3 && i !== 5) {
-                    let input = document.createElement('input');
-                    input.type = (i === 4) ? 'date' : 'text';
-                    cells[i].appendChild(input);
-                }
-            }
-
-            var fname = document.getElementById('firstname').value;
-            var lname = document.getElementById('lastname').value;
-            var amount = document.getElementById('amount').value;
-            var price = document.getElementById('price').value;
-            var date = document.getElementById('datze').value;
-
-            cells[0].getElementsByTagName('input')[0].value = fname;
-            cells[1].getElementsByTagName('input')[0].value = lname;
-            cells[2].innerHTML = amount;
-            cells[3].innerHTML = price;
-            cells[4].getElementsByTagName('input')[0].value = date;
-            document.getElementById('firstname').value = '';
-            document.getElementById('lastname').value = '';
-            document.getElementById('amount').value = '';
-            document.getElementById('price').value = '';
-            document.getElementById('date').value = '';
-
-            // Save the order to local storage
-            saveOrders();
-        }
-
-        function loadOrders() {
-            // Retrieve orders from local storage
-            const ordersData = localStorage.getItem("orders");
-            if (ordersData) {
-                try {
-                    const ordersList = JSON.parse(ordersData);
-
-                    // Display the orders in the table
-                    const table = document.querySelector('.datatable');
-                    for (const order of ordersList) {
-                        const newRow = table.insertRow();
-                        for (const key in order) {
-                            const cell = newRow.insertCell();
-                            cell.innerHTML = order[key];
-                        }
-                    }
-                } catch (error) {
-                    console.error("Error loading orders:", error);
-                }
-            }
-        }
-
-        // Function to save all orders to local storage
-        function saveOrders() {
-            const table = document.querySelector('.datatable');
-            const ordersList = [];
-
-            // Iterate through rows and cells to collect data
-            for (let i = 1; i < table.rows.length; i++) {
-                const order = {
-                    'First Name': table.rows[i].cells[0].getElementsByTagName('input')[0].value,
-                    'Last Name': table.rows[i].cells[1].getElementsByTagName('input')[0].value,
-                    'Cookie Amount': table.rows[i].cells[2].getElementsByTagName('input')[0].value,
-                    'Price': table.rows[i].cells[3].getElementsByTagName('input')[0].value,
-                    'Date': table.rows[i].cells[4].getElementsByTagName('input')[0].value
-                };
-                ordersList.push(order);
-            }
-
-            // Save the data to local storage
-            localStorage.setItem("orders", JSON.stringify(ordersList));
-        }
-
-        // Load stored orders on page load
-        window.onload = function () {
-            loadOrders();
-        };
-    </script>
+    <button onclick="saveOrder()">Save</button>
+    <div id="totalRevenue">Total Revenue: $0.00</div>
     <script src="Data.js"></script>
 </body>
 
