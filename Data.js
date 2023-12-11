@@ -1,96 +1,88 @@
-var cookieData = [];
+// Function to save the order to local storage
+function saveOrder() {
+    try {
+        // Retrieve existing orders from local storage or initialize an empty array
+        const ordersList = JSON.parse(localStorage.getItem("orders")) || [];
 
-function displayTableData() {
-    // Fetch data from the server using jQuery.ajax
-    $.ajax({
-        type: "GET",
-        url: "getdata.php",
-        success: function (data) {
-            cookieData = JSON.parse(data);
-            renderTable();
-        },
-        error: function (error) {
-            console.log("Error fetching data:", error);
-        }
-    });
+        // Get input values
+        const fname = document.getElementById("firstname").value;
+        const lname = document.getElementById("lastname").value;
+        const amount = document.getElementById("amount").value;
+        const price = document.getElementById("price").value;
+        const date = document.getElementById("date").value;
+
+        // Create a new order object
+        const newOrder = {
+            firstname: fname,
+            lastname: lname,
+            amount: amount,
+            price: price,
+            date: date
+        };
+
+        // Add the new order to the array
+        ordersList.push(newOrder);
+
+        // Log the order list before saving
+        console.log("Orders List before saving:", ordersList);
+
+        // Save the updated array back to local storage
+        localStorage.setItem("orders", JSON.stringify(ordersList));
+    } catch (error) {
+        // Use console.log instead of console.error
+        console.log("Error saving order:", error);
+    }
 }
 
-function addOnClick() {
-    var firstname = document.getElementById('First-Name').value;
-    var lastname = document.getElementById('Last-Name').value;
-    var design = document.getElementById('Design').value;
-    var cookieAmount = document.getElementById('Cookie-Amount').value;
-    var price = document.getElementById('Price').value;
-    var date = document.getElementById('Date').value;
+    function addRow() {
+        var table = document.querySelector('.datatable');
+        var newRow = table.insertRow();
+        var cells = [];
 
-    if (validateForm()) {
-        // Use jQuery.ajax to send data to the server
-        $.ajax({
-            type: "POST",
-            url: "save_data.php",
-            data: {
-                firstname: firstname,
-                lastname: lastname,
-                design: design,
-                cookieAmount: cookieAmount,
-                price: price,
-                date: date
-            },
-            success: function (response) {
-                console.log(response); // Log the server response
-                displayTableData(); // Refresh the table on successful save
-                clearItems(); // Clear the form
-            },
-            error: function (error) {
-                console.error('Error:', error); // Log the error
-                alert('An error occurred. Please try again.'); // Display an alert for errors
+        for (let i = 0; i < 5; i++) {
+            cells[i] = newRow.insertCell(i);
+            if (i !== 2 && i !== 3) {
+                let input = document.createElement('input');
+                input.type = (i === 4) ? 'date' : 'text';
+                cells[i].appendChild(input);
             }
-        });
-    }
-}
-
-function removeRow(index) {
-    // Make an AJAX call to remove data from the server
-    var idToRemove = cookieData[index].id; // Assuming you have an 'id' field in your data
-    $.ajax({
-        type: "POST",
-        url: "removedata.php",
-        data: {
-            id: idToRemove
-        },
-        success: function (response) {
-            console.log(response); // Log the server response
-            displayTableData(); // Refresh the table on successful removal
-        },
-        error: function (error) {
-            console.log("Error:", error);
         }
-    });
-}
 
-fetch('save_data.php', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: data,
-})
-.then(response => {
-    if (!response.ok) {
-        throw new Error('Network response was not ok');
+        var fname = document.getElementById('firstname').value;
+        var lname = document.getElementById('lastname').value;
+        var amount = document.getElementById('amount').value;
+        var price = document.getElementById('price').value;
+        var date = document.getElementById('date').value;
+
+        cells[0].getElementsByTagName('input')[0].value = fname;
+        cells[1].getElementsByTagName('input')[0].value = lname;
+        cells[2].innerHTML = amount;
+        cells[3].innerHTML = price;
+        cells[4].getElementsByTagName('input')[0].value = date;
+
+        document.getElementById('firstname').value = '';
+        document.getElementById('lastname').value = '';
+        document.getElementById('amount').value = '';
+        document.getElementById('price').value = '';
+        document.getElementById('date').value = '';
+
+        // Save the order to local storage
+        saveOrder();
     }
-    return response.text();
-})
-.then(data => {
-    console.log(data);
-    displayTableData();
-    clearItems();
-})
-.catch(error => {
-    console.error('Error:', error);
-    alert('An error occurred. Please try again.');
-});
 
-
-// Fetch and display data on page load
-displayTableData();
+    function loadOrders() {
+        // Retrieve existing orders from local storage or initialize an empty array
+        const ordersList = JSON.parse(localStorage.getItem("orders")) || [];
+    // Log the retrieved orders
+    console.log("Orders List:", ordersList);
+            // Loop through the orders and add them to the table
+            for (let i = 0; i < ordersList.length; i++) {
+                addRow();
+                document.getElementById('firstname').value = ordersList[i].firstname;
+                document.getElementById('lastname').value = ordersList[i].lastname;
+                document.getElementById('amount').value = ordersList[i].amount;
+                document.getElementById('price').value = ordersList[i].price;
+                document.getElementById('date').value = ordersList[i].date;
+            }
+    }
+    
