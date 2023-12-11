@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Data.css"> 
+    <link rel="stylesheet" href="Data.css">
     <title>Cookie Data Table</title>
 </head>
-<header>
-    <h1>Any New Orders to Input today?</h1>
-</header>
+
+<body>
+
+    <header>
+        <h1>New Orders</h1>
+    </header>
+
     <nav>
         <ul>
             <li><a href="index.html">Home</a></li>
@@ -18,88 +23,113 @@
         </ul>
     </nav>
 
-<body>
-    <table class ="datatable" border="1">
-        <thread>
+    <table class="datatable" border="1">
+        <thead>
             <tr>
-                <td>First Name</td>
-                <td>Last Name</td>
-                <td>Cookie Amount</td>
-                <td>Price</td>
-                <td>Date</td>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Cookie Amount</th>
+                <th>Price</th>
+                <th>Date</th>
             </tr>
-
+        </thead>
         <tbody>
-            <tr><input type="text" id="firstname" placeholder = "Enter First Name"></tr> 
-            <tr><input type="text" id="lastname" placeholder = "Enter Last Name"></tr>
-            <tr><input type="number" id="amount" placeholder = "Enter Amount of Cookies"></tr>
-            <tr><input type="number" id="price" placeholder = "Enter Total Price"></tr>
-            <tr><input type="date" id="date"></tr>
+            <tr>
+                <td><input type="text" id="firstname" placeholder="Enter First Name"></td>
+                <td><input type="text" id="lastname" placeholder="Enter Last Name"></td>
+                <td><input type="number" id="amount" placeholder="Enter Amount of Cookies"></td>
+                <td><input type="number" id="price" placeholder="Enter Total Price"></td>
+                <td><input type="date" id="date"></td>
+            </tr>
         </tbody>
-        </table>
-        <button onclick="addRow()">Add Order</button>
-        <button onclick="saveOrder()">Save</button>
-        <script>
-            function addRow() {
-                var table = document.querySelector('table');
-                var newRow = table.insertRow();
-                var cell1 = newRow.insertCell(0);
-                var cell2 = newRow.insertCell(1);
-                //get input values
-                var fname = document.getElementById('firstname').value;
-                var lname = document.getElementById('lastname').value;
-                var amount = document.getElementById('amount').value;
-                var price = document.getElementById('price').value;
-                var date = document.getElementById('date').value;
-                //add to cells
-                cell1.innerHTML = fname;
-                cell2.innerHTML = lname;
-                //clear input fields
-                document.getElementById('firstname').value = '';
-                document.getElementById('lastname').value = '';
-                document.getElementById('amount').value = '';
-                document.getElementById('price').value = '';
-                document.getElementById('date').value = '';
-                //add remaining cells
-                var newCell3 = newRow.insertCell(2);
-                var newCell4 = newRow.insertCell(3);
-                var newCell5 = newRow.insertCell(4);
-                newCell3.innerHTML = amount;
-                newCell4.innerHTML = price;
-                newCell5.innerHTML = date;
+    </table>
+    <button onclick="addRow()">Add Order</button>
+
+    <script>
+        function addRow() {
+            var table = document.querySelector('.datatable');
+            var newRow = table.insertRow();
+            var cells = [];
+
+            for (let i = 0; i < 6; i++) {
+                cells[i] = newRow.insertCell(i);
+                if (i !== 2 && i !== 3 && i !== 5) {
+                    let input = document.createElement('input');
+                    input.type = (i === 4) ? 'date' : 'text';
+                    cells[i].appendChild(input);
+                }
             }
-            // Save order data to localStorage
-            function saveOrder() {
-                var order = {
-                    firstname: document.getElementById('firstname').value,
-                    lastname: document.getElementById('lastname').value,
-                    amount: document.getElementById('amount').value,
-                    price: document.getElementById('price').value,
-                    date: document.getElementById('date').value
-                    };
-                    // Save to localStorage
-                    localStorage.setItem('orders', JSON.stringify(order));
-                    // Clear form
-                    document.getElementById('firstname').value = '';
-                    document.getElementById('lastname').value = '';
-                    document.getElementById('amount').value = '';
-                    document.getElementById('price').value = '';
-                    document.getElementById('date').value = '';
-                    // Load orders from localStorage
-                    var orders = JSON.parse(localStorage.getItem('orders')) || [];
-                    // Display existing orders
-                    orders.forEach(function(order) {
-                        addRow(
-                            order.firstname,
-                            order.lastname,
-                            order.amount,
-                            order.price,
-                            order.date);
-                            })};
-                            // Add submit handler to save on form submit
-                            document.querySelector('form').addEventListener('submit', saveOrder);
 
-        </script>
+            var fname = document.getElementById('firstname').value;
+            var lname = document.getElementById('lastname').value;
+            var amount = document.getElementById('amount').value;
+            var price = document.getElementById('price').value;
+            var date = document.getElementById('datze').value;
+
+            cells[0].getElementsByTagName('input')[0].value = fname;
+            cells[1].getElementsByTagName('input')[0].value = lname;
+            cells[2].innerHTML = amount;
+            cells[3].innerHTML = price;
+            cells[4].getElementsByTagName('input')[0].value = date;
+            document.getElementById('firstname').value = '';
+            document.getElementById('lastname').value = '';
+            document.getElementById('amount').value = '';
+            document.getElementById('price').value = '';
+            document.getElementById('date').value = '';
+
+            // Save the order to local storage
+            saveOrders();
+        }
+
+        function loadOrders() {
+            // Retrieve orders from local storage
+            const ordersData = localStorage.getItem("orders");
+            if (ordersData) {
+                try {
+                    const ordersList = JSON.parse(ordersData);
+
+                    // Display the orders in the table
+                    const table = document.querySelector('.datatable');
+                    for (const order of ordersList) {
+                        const newRow = table.insertRow();
+                        for (const key in order) {
+                            const cell = newRow.insertCell();
+                            cell.innerHTML = order[key];
+                        }
+                    }
+                } catch (error) {
+                    console.error("Error loading orders:", error);
+                }
+            }
+        }
+
+        // Function to save all orders to local storage
+        function saveOrders() {
+            const table = document.querySelector('.datatable');
+            const ordersList = [];
+
+            // Iterate through rows and cells to collect data
+            for (let i = 1; i < table.rows.length; i++) {
+                const order = {
+                    'First Name': table.rows[i].cells[0].getElementsByTagName('input')[0].value,
+                    'Last Name': table.rows[i].cells[1].getElementsByTagName('input')[0].value,
+                    'Cookie Amount': table.rows[i].cells[2].getElementsByTagName('input')[0].value,
+                    'Price': table.rows[i].cells[3].getElementsByTagName('input')[0].value,
+                    'Date': table.rows[i].cells[4].getElementsByTagName('input')[0].value
+                };
+                ordersList.push(order);
+            }
+
+            // Save the data to local storage
+            localStorage.setItem("orders", JSON.stringify(ordersList));
+        }
+
+        // Load stored orders on page load
+        window.onload = function () {
+            loadOrders();
+        };
+    </script>
+    <script src="Data.js"></script>
 </body>
-</html>
 
+</html>
